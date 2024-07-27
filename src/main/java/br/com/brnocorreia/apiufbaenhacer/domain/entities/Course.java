@@ -37,10 +37,10 @@ public class Course extends Auditable {
     @Column(name = "max_duration", nullable = false)
     private Integer maxDuration;
 
-    @Column(name = "legal_base", nullable = true)
+    @Column(name = "legal_base")
     private String legalBase;
 
-    @Column(name = "description", nullable = true)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "ob_workload", nullable = false)

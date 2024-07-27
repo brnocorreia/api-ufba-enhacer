@@ -33,16 +33,16 @@ public class Discipline extends Auditable {
     @Column(name = "department", nullable = false)
     private String department;
 
-    @Column(name = "program", nullable = true)
+    @Column(name = "program")
     private String program;
 
-    @Column(name = "objective", nullable = true)
+    @Column(name = "objective")
     private String objective;
 
-    @Column(name = "content", nullable = true)
+    @Column(name = "content")
     private String content;
 
-    @Column(name = "bibliography", nullable = true)
+    @Column(name = "bibliography")
     private String bibliography;
 
     public Discipline(final DisciplinePayload payload) {
