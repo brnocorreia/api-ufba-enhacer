@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS disciplines (
+    discipline_id SERIAL PRIMARY KEY,
+    code VARCHAR(8) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    workload INT NOT NULL,
+    department VARCHAR(60) NOT NULL,
+    program TEXT DEFAULT NULL,
+    objective TEXT DEFAULT NULL,
+    content TEXT DEFAULT NULL,
+    bibliography TEXT DEFAULT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
