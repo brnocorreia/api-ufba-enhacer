@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CoursePayload {
-    private String code;
+    private Integer code;
     private String name;
     private String shift;
     private Integer minDuration;

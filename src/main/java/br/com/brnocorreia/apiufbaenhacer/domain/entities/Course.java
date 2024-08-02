@@ -6,10 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "courses")
 @Getter
 @Setter
@@ -18,11 +23,11 @@ import java.time.LocalDateTime;
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer courseId;
 
     @Column(name = "code", nullable = false, unique = true)
-    private String code;
+    private Integer code;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -51,9 +56,17 @@ public class Course {
     @Column(name = "ac_workload", nullable = false)
     private Integer acWorkload;
 
+    @ManyToMany
+    @JoinTable(name = "courses_disciplines",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "discipline_id"))
+    Set<Discipline> disciplines;
+
+    @CreatedDate
     @Column(name = "created_at", updatable = false)
     LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
 

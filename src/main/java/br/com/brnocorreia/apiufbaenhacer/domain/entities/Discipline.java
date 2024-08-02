@@ -6,10 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "disciplines")
 @Getter
 @Setter
@@ -44,9 +49,14 @@ public class Discipline {
     @Column(name = "bibliography")
     private String bibliography;
 
+    @ManyToMany(mappedBy = "disciplines")
+    Set<Course> courses;
+
+    @CreatedDate
     @Column(name = "created_at", updatable = false)
     LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
 

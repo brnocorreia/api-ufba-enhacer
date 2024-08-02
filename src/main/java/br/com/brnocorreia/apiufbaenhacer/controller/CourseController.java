@@ -5,10 +5,7 @@ import br.com.brnocorreia.apiufbaenhacer.domain.entities.Course;
 import br.com.brnocorreia.apiufbaenhacer.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +17,7 @@ public class CourseController {
     private CourseService courseService;
 
     @PostMapping()
-    public ResponseEntity<Course> createCourse(CoursePayload payload) {
+    public ResponseEntity<Course> createCourse(@RequestBody CoursePayload payload) {
         return courseService.create(payload);
     }
 
