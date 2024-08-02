@@ -5,10 +5,9 @@ import br.com.brnocorreia.apiufbaenhacer.domain.entities.Discipline;
 import br.com.brnocorreia.apiufbaenhacer.service.DisciplineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/disciplines")
@@ -20,5 +19,10 @@ public class DisciplineController {
     @PostMapping()
     public ResponseEntity<Discipline> createDiscipline(@RequestBody DisciplinePayload payload) {
         return disciplineService.create(payload);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Discipline>> getAllDisciplines() {
+        return disciplineService.getAll();
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DisciplineService {
 
@@ -24,5 +26,9 @@ public class DisciplineService {
         disciplineRepository.save(discipline);
 
         return ResponseEntity.ok().body(discipline);
+    }
+
+    public ResponseEntity<List<Discipline>> getAll() {
+        return ResponseEntity.ok(disciplineRepository.findAll());
     }
 }
