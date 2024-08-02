@@ -1,13 +1,13 @@
 package br.com.brnocorreia.apiufbaenhacer.domain.entities;
 
-import br.com.brnocorreia.apiufbaenhacer.dao.base.AuditableFields;
 import br.com.brnocorreia.apiufbaenhacer.domain.dto.CoursePayload;
-import br.com.brnocorreia.apiufbaenhacer.domain.entities.auditable.Auditable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "courses")
@@ -15,8 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditableFields.class)
-public class Course extends Auditable {
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,6 +50,12 @@ public class Course extends Auditable {
 
     @Column(name = "ac_workload", nullable = false)
     private Integer acWorkload;
+
+    @Column(name = "created_at", updatable = false)
+    LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    LocalDateTime updatedAt;
 
     public Course(final CoursePayload payload) {
         this.code = payload.getCode();

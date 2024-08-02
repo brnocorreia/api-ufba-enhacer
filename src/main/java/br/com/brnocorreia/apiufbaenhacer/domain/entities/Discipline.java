@@ -1,13 +1,13 @@
 package br.com.brnocorreia.apiufbaenhacer.domain.entities;
 
-import br.com.brnocorreia.apiufbaenhacer.dao.base.AuditableFields;
 import br.com.brnocorreia.apiufbaenhacer.domain.dto.DisciplinePayload;
-import br.com.brnocorreia.apiufbaenhacer.domain.entities.auditable.Auditable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "disciplines")
@@ -15,8 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditableFields.class)
-public class Discipline extends Auditable {
+public class Discipline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer disciplineId;
@@ -44,6 +43,12 @@ public class Discipline extends Auditable {
 
     @Column(name = "bibliography")
     private String bibliography;
+
+    @Column(name = "created_at", updatable = false)
+    LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    LocalDateTime updatedAt;
 
     public Discipline(final DisciplinePayload payload) {
         this.code = payload.getCode();
