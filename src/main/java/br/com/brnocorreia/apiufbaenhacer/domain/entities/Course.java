@@ -56,19 +56,16 @@ public class Course {
     @Column(name = "ac_workload", nullable = false)
     private Integer acWorkload;
 
-    @ManyToMany
-    @JoinTable(name = "courses_disciplines",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "discipline_id"))
-    Set<Discipline> disciplines;
+    @OneToMany(mappedBy = "course")
+    private Set<Relation> relations;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     public Course(final CoursePayload payload) {
         this.code = payload.getCode();

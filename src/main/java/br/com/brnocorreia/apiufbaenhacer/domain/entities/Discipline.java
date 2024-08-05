@@ -49,16 +49,16 @@ public class Discipline {
     @Column(name = "bibliography")
     private String bibliography;
 
-    @ManyToMany(mappedBy = "disciplines")
-    Set<Course> courses;
+    @OneToMany(mappedBy = "discipline")
+    private Set<Relation> relations;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     public Discipline(final DisciplinePayload payload) {
         this.code = payload.getCode();
