@@ -32,9 +32,4 @@ public class CourseController {
     public ResponseEntity<CourseResponse> getCourseByCode(@PathVariable Integer code) {
         return courseService.getByCode(code);
     }
-
-    @GetMapping("/{code}/disciplines")
-    public ResponseEntity<CourseWithDisciplinesDTO> getCourseDisciplines(@PathVariable Integer code) {
-        return courseService.getDisciplines(code);
-    }
 }
