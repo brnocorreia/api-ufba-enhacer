@@ -9,7 +9,7 @@ import (
 	"context"
 )
 
-const getCourses = `-- name: GetCourses :many
+const getAllCourses = `-- name: GetAllCourses :many
 SELECT
     "course_id",
     "code",
@@ -28,8 +28,8 @@ ORDER BY
     "name" ASC
 `
 
-func (q *Queries) GetCourses(ctx context.Context) ([]Course, error) {
-	rows, err := q.db.Query(ctx, getCourses)
+func (q *Queries) GetAllCourses(ctx context.Context) ([]Course, error) {
+	rows, err := q.db.Query(ctx, getAllCourses)
 	if err != nil {
 		return nil, err
 	}
@@ -58,4 +58,249 @@ func (q *Queries) GetCourses(ctx context.Context) ([]Course, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const getCourseByCode = `-- name: GetCourseByCode :one
+SELECT
+    "course_id",
+    "code",
+    "name",
+    "workload",
+    "department",
+    "program",
+    "objective",
+    "content",
+    "bibliography",
+    "created_at",
+    "updated_at"
+FROM
+    "courses"
+WHERE
+    "code" = $1
+`
+
+func (q *Queries) GetCourseByCode(ctx context.Context, code string) (Course, error) {
+	row := q.db.QueryRow(ctx, getCourseByCode, code)
+	var i Course
+	err := row.Scan(
+		&i.CourseID,
+		&i.Code,
+		&i.Name,
+		&i.Workload,
+		&i.Department,
+		&i.Program,
+		&i.Objective,
+		&i.Content,
+		&i.Bibliography,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
+const getCourseByName = `-- name: GetCourseByName :many
+SELECT
+    "course_id",
+    "code",
+    "name",
+    "workload",
+    "department",
+    "program",
+    "objective",
+    "content",
+    "bibliography",
+    "created_at",
+    "updated_at"
+FROM
+    "courses"
+WHERE
+    "name" = $1
+ORDER BY
+    "name" ASC
+`
+
+func (q *Queries) GetCourseByName(ctx context.Context, name string) ([]Course, error) {
+	rows, err := q.db.Query(ctx, getCourseByName, name)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Course
+	for rows.Next() {
+		var i Course
+		if err := rows.Scan(
+			&i.CourseID,
+			&i.Code,
+			&i.Name,
+			&i.Workload,
+			&i.Department,
+			&i.Program,
+			&i.Objective,
+			&i.Content,
+			&i.Bibliography,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getCoursesByDepartment = `-- name: GetCoursesByDepartment :many
+SELECT
+    "course_id",
+    "code",
+    "name",
+    "workload",
+    "department",
+    "program",
+    "objective",
+    "content",
+    "bibliography",
+    "created_at",
+    "updated_at"
+FROM
+    "courses"
+WHERE
+    "department" = $1
+ORDER BY
+    "name" ASC
+`
+
+func (q *Queries) GetCoursesByDepartment(ctx context.Context, department string) ([]Course, error) {
+	rows, err := q.db.Query(ctx, getCoursesByDepartment, department)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Course
+	for rows.Next() {
+		var i Course
+		if err := rows.Scan(
+			&i.CourseID,
+			&i.Code,
+			&i.Name,
+			&i.Workload,
+			&i.Department,
+			&i.Program,
+			&i.Objective,
+			&i.Content,
+			&i.Bibliography,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getCoursesByWorkload = `-- name: GetCoursesByWorkload :many
+SELECT
+    "course_id",
+    "code",
+    "name",
+    "workload",
+    "department",
+    "program",
+    "objective",
+    "content",
+    "bibliography",
+    "created_at",
+    "updated_at"
+FROM
+    "courses"
+WHERE
+    "workload" = $1
+`
+
+func (q *Queries) GetCoursesByWorkload(ctx context.Context, workload int32) ([]Course, error) {
+	rows, err := q.db.Query(ctx, getCoursesByWorkload, workload)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Course
+	for rows.Next() {
+		var i Course
+		if err := rows.Scan(
+			&i.CourseID,
+			&i.Code,
+			&i.Name,
+			&i.Workload,
+			&i.Department,
+			&i.Program,
+			&i.Objective,
+			&i.Content,
+			&i.Bibliography,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const insertCourse = `-- name: InsertCourse :exec
+INSERT INTO
+    "courses" (
+        "code",
+        "name",
+        "workload",
+        "department",
+        "program",
+        "objective",
+        "content",
+        "bibliography"
+    )
+VALUES (
+        $1,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6,
+        $7,
+        $8
+    )
+RETURNING "course_id"
+`
+
+type InsertCourseParams struct {
+	Code         string
+	Name         string
+	Workload     int32
+	Department   string
+	Program      *string
+	Objective    *string
+	Content      *string
+	Bibliography *string
+}
+
+func (q *Queries) InsertCourse(ctx context.Context, arg InsertCourseParams) error {
+	_, err := q.db.Exec(ctx, insertCourse,
+		arg.Code,
+		arg.Name,
+		arg.Workload,
+		arg.Department,
+		arg.Program,
+		arg.Objective,
+		arg.Content,
+		arg.Bibliography,
+	)
+	return err
 }
